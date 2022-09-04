@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 # Author - Jeremy Burks
-# Date Last Revised - 09/01/22
-# Purpose - User menu with four modes: one iterates through a provided wordlist in a filepath and prints the contents
-# to the terminal. The second mode searches line by line in a selected wordlist to find a match to a user string they input. The third enables a brute force atatack using a wordlist
-# The fourth menu function brute force attacks an encrypted Zipfile
+# Date Last Revised - 09/03/22
+# Purpose - User menu with two modes: one iterates through a provided wordlist in a filepath and prints the contents
+# to the terminal. The second mode searches line by line in a selected wordlist to find a match to a user string they input. 
+# Final function brute forces a password encrypted zip file
 
 import time, getpass
 import paramiko, sys, os, socket
@@ -45,30 +45,6 @@ def check_password():
 
     file.close()
 
-
-# User menu
-if __name__ == "__main__": # when my computer runs this file...do this stuff
-    while True:
-        mode = input("""
-Brue Force Wordlist Attack Tool Menu
-1 - Offensive, Dictionary Iterator
-2 - Defensive, Password Recognized
-3 - SSH Brute Force attack
-4-  Brute Force ZipFIle
-5 - Exit
-        Please enter a number: 
-""")
-        if (mode == "1"):
-            iterator()
-        elif (mode == "2"):
-            check_password()
-        elif (mode == '3'):
-            ssh_brute()
-        elif (mode == '4'):
-            break
-        else:
-            print("Invalid selection...") 
-
 def ssh_collect():
     line = "\n----------------------------------------------------------\n"
     try:
@@ -101,8 +77,41 @@ def ssh_brute(password, code = 0):
 
 def zip_brute():
     from zipfile import ZipFile
-    zip_file = 
-    password = 
-
-    with ZipFile(zip_file) as zf:
-        zf.extractall(pwd=bytes(password,'utf-8'))
+    zip_file = "/Users/jeremyburks/Desktop/thisisatest2.zip"
+    input_file = "/Users/jeremyburks/Ops401-Challenges/wordlist.txt"
+    with open(input_file, "r") as f:
+        for i in f:
+            password = i.strip("\n")
+            try:
+                with ZipFile(zip_file) as zf:
+                    zf.extractall(pwd=bytes(password,'utf-8'))
+                    print("This is the password!")
+                    break
+            except RuntimeError:
+                print("This is not the password")
+                pass
+            
+# User menu
+if __name__ == "__main__": # when my computer runs this file...do this stuff
+    while True:
+        mode = input("""
+Brue Force Wordlist Attack Tool Menu
+1 - Offensive, Dictionary Iterator
+2 - Defensive, Password Recognized
+3 - SSH Brute Force attack
+4-  Brute Force ZipFIle
+5 - Exit
+        Please enter a number: 
+""")
+        if (mode == "1"):
+            iterator()
+        elif (mode == "2"):
+            check_password()
+        elif (mode == '3'):
+            ssh_brute()
+        elif (mode == '4'):
+            zip_brute()
+        elif (mode == '5'):
+            break
+        else:
+            print("Invalid selection...") 
