@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 # Author - Jeremy Burks
-# Date Last Revised - 09/29/22
+# Date Last Revised - 10/03/22
 # Purpose - User menu with two modes: one iterates through a provided wordlist in a filepath and prints the contents
 # to the terminal. The second mode searches line by line in a selected wordlist to find a match to a user string they input. 
 # Final function brute forces a password encrypted zip file
-# Newly added function add logging capabilities
-#added rotating logs
+# added logging capabilities and rotating logs
+# added stream handler and file handler functioanlity 
+
 
 import time, getpass
 import paramiko, sys, os, socket
@@ -19,17 +20,21 @@ from logging.handlers import TimedRotatingFileHandler
 from logging.handlers import RotatingFileHandler
 
 #create a file to write logs to:
-def timed_rotating_log(path):
-    """
-    Creates a rotating log
-    """
-    logger = logging.getLogger("Rotating Log")
-    logger.setLevel(logging.INFO)
-    
-    # add a rotating handler
-    handler = RotatingFileHandler(path, maxBytes=40,
-                                  backupCount=5)
-    logger.addHandler(handler)
+logging.basicConfig(
+         handlers=[RotatingFileHandler('app.log', maxBytes=20, backupCount=5)],
+         level=logging.INFO,
+         format="[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
+         datefmt='%Y-%m-%dT%H:%M:%S')
+
+c_handler = logging.StreamHandler()
+f_handler = logging.FileHandler('app.log')
+
+
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(c_format)
+f_handler.setFormatter(f_format)
+
 
 # The iteration function that goes through and prints the values in the provided word list
 def iterator ():
@@ -129,7 +134,6 @@ def zip_brute():
     
 # User menu
 if __name__ == "__main__": # when my computer runs this file...do this stuff  
-    timed_rotating_log("app.log")
     while True:
         mode = input("""
         Brue Force Wordlist Attack Tool Menu
