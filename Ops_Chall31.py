@@ -5,8 +5,6 @@
 # Purpose - Prompt the user to type in a file name to search for. Prompt the user for a directory to search in. Search each file in the directory by name
 # For each positive detection, print to the screen the file name and location. At the end of the search process, print to the screen how many files were searched and how many hits were found.
 
-
-from msilib.schema import Directory
 import os
 
 def usermenu_os():
@@ -32,20 +30,29 @@ def usermenu_os():
         usermenu_os()
 
 def windows_select(directory, file):
-    #function to prompt user input of filename then directory
-    pass 
+    num_files = 0
+    correct_files = 0
+    fullpath = "C:\\" + directory 
+    for filename in os.listdir(fullpath):
+        num_files += 1
+        if filename.lower() == file.lower():
+            correct_files += 1
+            print(file + " has been located in " + directory + "!")
+        else:
+            num_files += 1
+    print("There were " + str(correct_files) + " matching file names found and " + str(num_files) + " were searched in this directory.")
 
 def linux_select(directory, file):
     num_files = 0
+    correct_files = 0
     for filename in os.listdir(directory):
         num_files += 1
-        correct_files = 0
         if filename.lower() == file.lower():
             correct_files += 1
-            print(file + "has been located in " + directory + "!")
+            print(file + " has been located in " + directory + "!")
         else:
             num_files += 1
-    print("There were " + correct_files + " matching file names found and " + num_files + " were searched in this directory.")
+    print("There were " + str(correct_files) + " matching file names found and " + str(num_files) + " were searched in this directory.")
 
 
 usermenu_os()
