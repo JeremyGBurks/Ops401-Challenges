@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author - Jeremy Burks
-# Date Last Revised - 10/20/22
+# Date Last Revised - 10/17/22
 # Purpose - User selects an OS, then recursively scans each file and folder in the user input directory path and print it to the screen.
 # Generate the file’s MD5 hash using Hashlib, assign the MD5 hash to a variable. Print the variable to the screen along with a timestamp, file name, file size, and complete file path
 
@@ -28,7 +28,7 @@ def directory_search(file):
             hash = hashing(fullpath)
             file_size = os.path.getsize(fullpath)
             time = datetime.datetime.now()
-            print(hash + 'filename ' + filename, time, file_size, fullpath)
+            print(hash + ' filename: ' + filename, time, file_size, fullpath)
             
 
 def hashing(filepath):
@@ -39,4 +39,3 @@ def hashing(filepath):
     return hasher.hexdigest()
 
 usermenu()
-
