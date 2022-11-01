@@ -31,7 +31,6 @@ def cat_net(url, port):
             break
         res += data.decode()
     print(res)
-    print("\033[A   \033[A")
 
     print ("Connection closed")
     soc.close()
