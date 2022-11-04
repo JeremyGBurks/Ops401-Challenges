@@ -8,7 +8,8 @@ import os
 import socket
 import sys
 import telnetlib
-import nmap
+import time
+import subprocess 
 
 
 url = input("Please enter URL or IP address: ")
@@ -18,19 +19,20 @@ port = int(input("Please enter a port number: "))
 def cat_net(url, port):
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     soc.connect((url, port))
-    nc = "nc" + url + " " + int(port)
-    sock.sendall(nc.encode())
+    nc = "nc" + url + " " + "port"
+    soc.sendall(nc.encode())
     time.sleep(0.5)
-    sock.shutdown(socket.SHUT_WR)
+    soc.shutdown(socket.SHUT_WR)
 
     res = ""
 
-    while TRUE:
+    while True:
         data = soc.recv(1024)
         if (not data):
             break
         res += data.decode()
     print(res)
+   
 
     print ("Connection closed")
     soc.close()
@@ -38,14 +40,14 @@ def cat_net(url, port):
 def tell_thenet(url, port):
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     soc.connect((url, port))
-    telly = "telnet" + url + " " + int(port)
-    sock.sendall(telly.encode())
+    telly = "telnet" + url + " " + "port"
+    soc.sendall(telly.encode())
     time.sleep(0.5)
-    sock.shutdown(socket.SHUT_WR)
+    soc.shutdown(socket.SHUT_WR)
 
     res = ""
 
-    while TRUE:
+    while True:
         data = soc.recv(1024)
         if (not data):
             break
@@ -55,5 +57,10 @@ def tell_thenet(url, port):
     print ("Connection closed")
     soc.close()
 
+def mappin(url, port):
+	newport = str(port)
+	os.system("nmap -sV –p" + newport + " " + url)
+
 cat_net(url, port)
 tell_thenet(url, port)
+mappin(url, port)
